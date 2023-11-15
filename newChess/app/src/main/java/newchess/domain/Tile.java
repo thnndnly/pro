@@ -1,7 +1,10 @@
 package newchess.domain;
 
 import newchess.data.Color;
+import newchess.data.Koordinates;
 import newchess.pieces.Piece;
+
+import java.util.List;
 
 public class Tile {
     Piece piece;
@@ -14,6 +17,8 @@ public class Tile {
         return piece.getColor();
     }
 
+    public Piece getPiece() { return piece;}
+
     @Override
     public String toString() {
         return piece.toString();
@@ -24,5 +29,9 @@ public class Tile {
             return piece.toString();
         }
         return "- ";
+    }
+
+    public List<Koordinates> getMoves(Koordinates position) {
+        return piece.possibleMoves(position);
     }
 }

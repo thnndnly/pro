@@ -11,7 +11,7 @@ public class NoPiece extends Piece {
     public NoPiece(){
         this.color = Color.NONE;
         this.name = "";
-        this.symbol = "";
+        this.symbol = "*";
         this.moveType = MoveType.NONE;
     }
     @Override

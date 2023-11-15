@@ -20,7 +20,7 @@ public class CommandLineInputParser implements InputParser {
         }
         else {
             List<String> inputPieces = List.of(input.split(" "));
-            if(InputData.isMoveValid(inputPieces.get(0), inputPieces.get(2))) {
+            if(!InputData.isMoveValid(inputPieces.get(0), inputPieces.get(2))) {
                 result = false;
             };
         }
@@ -34,6 +34,10 @@ public class CommandLineInputParser implements InputParser {
 
     @Override
     public Move parseInput(String input) {
-        return null;
+        if(!isInputCorrect(input)) {throw new IllegalArgumentException();}
+        else {
+            List<String> inputPieces = List.of(input.split(" "));
+            return InputData.getMove(inputPieces.get(0), inputPieces.get(2));
+        }
     }
 }
