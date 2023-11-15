@@ -45,17 +45,17 @@ public class Move {
             }
         }
         else if((differenceX == differenceY)) {
+            int j = Math.min(startingTile.getY(), endingTile.getY()) + 1;
             for(int i = Math.min(startingTile.getX(), endingTile.getX()) + 1; i < Math.max(startingTile.getX(), endingTile.getX()); i++) {
-                for(int j = Math.min(startingTile.getY(), endingTile.getY()) + 1; j < Math.max(startingTile.getY(), endingTile.getY()); j++) {
-                    result.add(new Koordinates(i, j));
-                }
+                result.add(new Koordinates(i, j));
+                 j++;
             }
         }
         else {
+            int j = Math.max(startingTile.getY(), endingTile.getY()) - 1;
             for(int i = Math.min(startingTile.getX(), endingTile.getX()) + 1; i < Math.max(startingTile.getX(), endingTile.getX()); i++) {
-                for(int j = Math.max(startingTile.getY(), endingTile.getY()) - 1; j > Math.min(startingTile.getY(), endingTile.getY()); j--) {
-                    result.add(new Koordinates(i, j));
-                }
+                result.add(new Koordinates(i, j));
+                j--;
             }
         }
         return result;

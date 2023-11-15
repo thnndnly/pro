@@ -3,7 +3,7 @@ package newchess.data;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Koordinates {
+public class Koordinates implements Comparable<Koordinates>{
 
     private final int x;
     private final int y;
@@ -36,5 +36,10 @@ public class Koordinates {
      */
     public static List<Koordinates> filterKoordinates(List<Koordinates> koordinatesList) {
         return koordinatesList.stream().filter(koordinates -> koordinates.getX() >= 0 && koordinates.getX() <= 7 && koordinates.getY() >= 0 && koordinates.getY() <= 7).collect(Collectors.toList());
+    }
+
+    @Override
+    public int compareTo(Koordinates k) {
+        return this.toString().compareTo(k.toString());
     }
 }

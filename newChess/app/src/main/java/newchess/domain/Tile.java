@@ -2,6 +2,7 @@ package newchess.domain;
 
 import newchess.data.Color;
 import newchess.data.Koordinates;
+import newchess.pieces.NoPiece;
 import newchess.pieces.Piece;
 
 import java.util.List;
@@ -33,5 +34,9 @@ public class Tile {
 
     public List<Koordinates> getMoves(Koordinates position) {
         return piece.possibleMoves(position);
+    }
+
+    public boolean isTileEmpty() {
+        return piece instanceof NoPiece;
     }
 }

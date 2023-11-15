@@ -58,6 +58,13 @@ public class Game {
             board[6][i] = new Tile(new Pawn(Color.WHITE));
         }
 
+        // No pieces
+        for(int i = 0; i < 8; i++){
+            for(int j = 2; j < 6; j++){
+                board[j][i] = new Tile(new NoPiece());
+            }
+        }
+
     }
 
     public void startGame() {
@@ -113,7 +120,7 @@ public class Game {
         return result;
     }
 
-    private boolean isMovingFigurePlayersFigure(Koordinates koordinates) {
+    boolean isMovingFigurePlayersFigure(Koordinates koordinates) {
         return turn == getTile(koordinates).getColor();
     }
 
@@ -125,15 +132,20 @@ public class Game {
     }
 
     private boolean isPieceInWay(Move move) {
-        if(doesPieceMovingTypeRequireFreeway(getTile(move.getStartingTile()).getPiece())) {
-            return false;
+        boolean result = true;
+        if(doesPieceMovingRequireFreeway(getTile(move.getStartingTile()).getPiece())) {
+            List<Koordinates> needToBeFreeTiles = move.getNeedToBeEmpty();
+            for(Koordinates koordinates : needToBeFreeTiles) {
+                if(!getTile(koordinates).isTileEmpty()) {
+                    result = false;
+                    break;
+                }
+            }
         }
-        else {
-            return true;
-        }
+        return result;
     }
 
-    private boolean doesPieceMovingTypeRequireFreeway(Piece piece) {
-        return piece instanceof Pawn || piece instanceof Knight || piece instanceof King;
+    public boolean doesPieceMovingRequireFreeway(Piece piece) {
+        return !(piece instanceof Pawn || piece instanceof Knight || piece instanceof King);
     }
 }
