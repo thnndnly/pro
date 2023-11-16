@@ -37,10 +37,20 @@ public class Pawn extends Piece {
             result.add(new Koordinates(position.getX() + 1, position.getY() + 1));
             result.add(new Koordinates(position.getX() + 1, position.getY() - 1));
         }
-        return result;
+        return Koordinates.filterKoordinates(result);
     }
 
     public void setMoved(){
         hasAlreadyMoved = true;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Pawn pawn){
+            return this.color.equals(pawn.getColor()) && this.name.equals(pawn.name) && this.symbol.equals(pawn.symbol) && this.moveType.equals(pawn.moveType);
+        }
+        else {
+            return false;
+        }
     }
 }

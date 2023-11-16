@@ -22,6 +22,10 @@ public class Game {
         return board[koordinates.getX()][koordinates.getY()];
     }
 
+    public void nextPlayersTurn(){
+        turn = turn.equals(Color.WHITE)? Color.BLACK : Color.WHITE;
+    }
+
     public void initialize(){
         clui = new CommandLineInputParser();
         gameRunning = true;
@@ -72,11 +76,19 @@ public class Game {
         System.out.println("Neues Spiel, möge Maggnus mit dir sein.");
         while (gameRunning) {
             printBoard();
-            System.out.println("\nGib deinen Zug ein:\n");
+            System.out.println("\nGib deinen Zug ein:");
             String input = clui.getInput();
             if(clui.isInputCorrect(input)) {
                 Move move = clui.parseInput(input);
-
+                if(isMoveLegal(move)) {
+                    makeMove(move);
+                }
+                else {
+                    System.out.println("Es gibt folgende Probleme mit dem von dir eingegebene Zug:");
+                    for(String error : MoveError.errors) {
+                        System.out.println(error);
+                    };
+                }
             }
             else {
                 System.out.println("Ungültige Eingabe, bitte versuche es noch einmal.");
@@ -115,7 +127,15 @@ public class Game {
             result = false;
         }
         // 3.
-
+        if(!isFreeway(move)) {
+            errors.add("Eine Figur behindert deine Figur beim Zug.");
+            result = false;
+        }
+        // 4.
+        if(isEndTileAllay(move.getEndingTile())) {
+            errors.add("Der Zielfeld ist mit einer eigenen Figur belegt.");
+            result = false;
+        }
         MoveError.errors = errors;
         return result;
     }
@@ -131,7 +151,7 @@ public class Game {
         return possibleMoves.contains(endKoordinates);
     }
 
-    private boolean isPieceInWay(Move move) {
+    public boolean isFreeway(Move move) {
         boolean result = true;
         if(doesPieceMovingRequireFreeway(getTile(move.getStartingTile()).getPiece())) {
             List<Koordinates> needToBeFreeTiles = move.getNeedToBeEmpty();
@@ -147,5 +167,21 @@ public class Game {
 
     public boolean doesPieceMovingRequireFreeway(Piece piece) {
         return !(piece instanceof Pawn || piece instanceof Knight || piece instanceof King);
+    }
+
+    public boolean isEndTileAllay(Koordinates koordinates) {
+        if(!getTile(koordinates).isTileEmpty()) {
+            return turn.equals(getTile(koordinates).getColor());
+        }
+        else {
+            return false;
+        }
+    }
+
+    public void makeMove(Move move) {
+        Piece piece = getTile(move.startingTile).getPiece();
+        board[move.startingTile.getX()][move.startingTile.getY()] = new Tile(new NoPiece());
+        board[move.endingTile.getX()][move.endingTile.getY()] = new Tile(piece);
+        nextPlayersTurn();
     }
 }

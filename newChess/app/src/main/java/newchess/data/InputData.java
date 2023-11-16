@@ -40,7 +40,7 @@ public class InputData {
             char number1 = startTileString.toUpperCase().charAt(1);
             char letter2 = endTileString.toUpperCase().charAt(0);
             char number2 = endTileString.toUpperCase().charAt(1);
-            return new Move(new Koordinates(horizontal.get(letter1), vertical.get(number1)), new Koordinates(horizontal.get(letter2), vertical.get(number2)));
+            return new Move(new Koordinates(vertical.get(number1), horizontal.get(letter1)), new Koordinates(vertical.get(number2), horizontal.get(letter2)));
         }
     }
 }

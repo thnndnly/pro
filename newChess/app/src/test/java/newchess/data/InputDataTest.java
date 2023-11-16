@@ -23,6 +23,6 @@ public class InputDataTest extends TestCase {
 
     @DisplayName("move is correctly parsed from input")
     public void testGetMove() {
-        assertEquals(new Move(new Koordinates(4, 6), new Koordinates(4, 4)), InputData.getMove("E2", "E4"));
+        assertEquals(new Move(new Koordinates(6, 4), new Koordinates(4, 4)), InputData.getMove("E2", "E4"));
     }
 }
